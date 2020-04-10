@@ -38,7 +38,7 @@ export default {
   data () {
     return {
       pollInterval: null,
-      pollIntervalDurationSec: 10,
+      pollIntervalDurationSec: 30,
       source: null,
       audioPlaying: false
     }
