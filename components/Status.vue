@@ -32,7 +32,7 @@ export default {
         'status',
         { 'is-visible': this.show },
         { 'is-clickable': this.isLiveStreaming },
-        { 'is-playing': this.audioPlaying }
+        { 'is-playing': (this.audioPlaying && this.isLiveStreaming) }
       ]
     },
     title () {
