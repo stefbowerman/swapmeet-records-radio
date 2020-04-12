@@ -39,8 +39,10 @@ export default {
     displayText () {
       let t = 'Currently Offline'
 
-      if (this.isLiveStreaming) {
+      if (this.audioPlaying) {
         t = this.currentShowName ? `Now Playing: ${this.currentShowName}` : 'Live on Air'
+      } else if (this.isLiveStreaming) {
+        t = 'Click to listen'
       }
 
       return `${t}&hellip;`
