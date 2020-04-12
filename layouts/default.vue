@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes">
+  <div :class="classes" :style="styleProps">
     <nuxt />
   </div>
 </template>
@@ -8,7 +8,8 @@
 export default {
   data () {
     return {
-      isReady: false
+      isReady: false,
+      windowHeight: '100vh'
     }
   },
   computed: {
@@ -17,12 +18,31 @@ export default {
         'page',
         { 'is-ready': this.isReady }
       ]
+    },
+    styleProps () {
+      return {
+        '--100vh': this.windowHeight
+      }
     }
   },
   mounted () {
+    this.set100vhProp()
+
+    window.addEventListener('resize', this.set100vhProp)
+    document.addEventListener('scroll', this.set100vhProp)
+
     setTimeout(() => {
       this.isReady = true
     }, 1500)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.set100vhProp)
+    document.removeEventListener('scroll', this.set100vhProp)
+  },  
+  methods: {
+    set100vhProp () {
+      this.windowHeight = window.innerWidth <= 1024 ? `${window.innerHeight}px` : '100vh'
+    }
   }
 }
 </script>
