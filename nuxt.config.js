@@ -19,11 +19,12 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#111' },
   /*
   ** Global CSS
   */
   css: [
+    '~/styles/app.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -35,7 +36,13 @@ export default {
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/style-resources',
+    [
+      '@nuxtjs/google-analytics', {
+        id: 'UA-163433059-1'
+      }
+    ]
   ],
   /*
   ** Nuxt.js modules
@@ -59,5 +66,11 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  styleResources: {
+    scss: [
+      '~/styles/_variables.scss',
+      '~/styles/_mixins.scss'
+    ]
   }
 }

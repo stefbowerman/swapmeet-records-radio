@@ -4,22 +4,24 @@
       <status
         :is-live-streaming="isLiveStreaming"
         :audio-playing="audioPlaying"
-        :show="showStatus"
+        :current-show-name="currentShowName"
+        :visible="showStatus"
         @click.native="onStatusClick"
       />
+
       <on-air-sign />
+      
       <Footer />
 
       <audio
         ref="player"
         hidden
         @play="(e) => setAudioPlayerState(true)"
-        @playing="(e) => setAudioPlayerState(true)"
         @pause="(e) => setAudioPlayerState(false)"
         @ended="(e) => setAudioPlayerState(false)"
       >
-        <source src="https://swapmeetradio.out.airtime.pro/swapmeetradio_a"></source>
-      </audio>      
+        <source :src="audioSrc"></source>
+      </audio>
     </div>
   </div>
 </template>
@@ -29,6 +31,8 @@ import Status from '~/components/Status'
 import OnAirSign from '~/components/OnAirSign.vue'
 import Footer from '~/components/Footer.vue'
 
+const LIVE_STREAM_SRC = 'https://swapmeetradio.out.airtime.pro/swapmeetradio_a'
+
 export default {
   components: {
     OnAirSign,
@@ -37,18 +41,27 @@ export default {
   },
   data () {
     return {
+      audioSrc: LIVE_STREAM_SRC,
       pollInterval: null,
-      pollIntervalDurationSec: 30,
       source: null,
-      audioPlaying: false
+      isLiveStreaming: false,
+      audioPlaying: false,
+      currentShowName: null
     }
   },
   computed: {
-    isLiveStreaming () {
-      return this.source === 'Live DJ'
-    },
     showStatus () {
       return this.source != null
+    },
+    pollIntervalDurationSec () {
+      return this.isLiveStreaming ? 15 : 30
+    }
+  },
+  watch: {
+    isLiveStreaming (newVal) {
+      if (newVal === false) {
+        this.stopAudio()
+      }
     }
   },
   created () {
@@ -60,18 +73,40 @@ export default {
   },
   methods: {
     async fetchStationData () {
-      const data = await this.$axios.$get('https://swapmeetradio.airtime.pro/api/live-info-v2')
-      this.source = data.station && data.station.source_enabled
+      try {
+        const data = await this.$axios.$get('https://swapmeetradio.airtime.pro/api/live-info-v2')
+        this.source = data.station && data.station.source_enabled
+        this.isLiveStreaming = (this.source === 'Live DJ')
+        this.currentShowName = data.shows.current && data.shows.current.name
+      } catch (e) {
+        console.error(e)
+      }
     },
     onStatusClick () {
       if (!this.isLiveStreaming) {
         return
       }
 
-      this.audioPlaying ? this.$refs.player.pause() : this.$refs.player.play()
+      if (this.audioPlaying) {
+        this.stopAudio()
+      } else {
+        this.playAudio()
+      }
     },
     setAudioPlayerState (playing) {
       this.audioPlaying = playing
+    },
+    stopAudio () {
+      this.$refs.player.pause()
+      this.$refs.player.currentTime = 0
+      this.audioSrc = ''
+    },
+    playAudio () {
+      this.audioSrc = LIVE_STREAM_SRC
+      this.$nextTick(() => {
+        this.$refs.player.load()
+        this.$refs.player.play()
+      })
     }
   }
 }

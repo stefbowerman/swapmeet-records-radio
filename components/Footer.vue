@@ -1,20 +1,23 @@
 <template>
   <footer>
-    Swapmeet Records &copy; <span style="text-transform: none">Est.</span> 1999
+    Swapmeet Records &copy; <span class="tt-none">Est.</span> 1999
   </footer>
 </template>
 
-<style>
-  footer {
-    position: fixed;
-    bottom: 40px;
+<style lang="scss">
+footer {
+  position: fixed;
+  bottom: 20px;
+  left: 22px;
+  right: 22px;
+  font-size: $font-size-small;
+  text-align: left;
+
+  @include bp-up($screen-sm-min) {
     left: 50px;
     right: 50px;
-  }
-
-  @media (min-width: 600px) {
-    footer {
-      text-align: left;
-    }
-  }
+    bottom: 40px;
+    font-size: $font-size-base;
+  }  
+}
 </style>
