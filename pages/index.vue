@@ -12,6 +12,7 @@
       <on-air-sign />
       
       <Footer />
+      <Chat />
 
       <audio
         ref="player"
@@ -30,14 +31,16 @@
 import Status from '~/components/Status'
 import OnAirSign from '~/components/OnAirSign.vue'
 import Footer from '~/components/Footer.vue'
+import Chat from '~/components/Chat.vue'
 
 const LIVE_STREAM_SRC = 'https://swapmeetradio.out.airtime.pro/swapmeetradio_a'
 
 export default {
   components: {
+    Status,
     OnAirSign,
     Footer,
-    Status
+    Chat
   },
   data () {
     return {
