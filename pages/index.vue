@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <div>
+      <Hotline />
+
       <status
         :is-live-streaming="isLiveStreaming"
         :audio-playing="audioPlaying"
@@ -32,6 +34,7 @@ import Status from '~/components/Status'
 import OnAirSign from '~/components/OnAirSign.vue'
 import Footer from '~/components/Footer.vue'
 import Chat from '~/components/Chat.vue'
+import Hotline from '~/components/Hotline.vue'
 
 const LIVE_STREAM_SRC = 'https://swapmeetradio.out.airtime.pro/swapmeetradio_a'
 
@@ -40,7 +43,8 @@ export default {
     Status,
     OnAirSign,
     Footer,
-    Chat
+    Chat,
+    Hotline
   },
   data () {
     return {

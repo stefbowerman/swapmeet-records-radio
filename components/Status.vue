@@ -64,7 +64,8 @@ export default {
   font-size: $font-size-small;
   transition: transform 200ms ease-out 130ms, opacity 200ms ease-out 0s;
   opacity: 0;
-  max-width: 85vw;
+  // max-width: 85vw;
+  max-width: 65vw;
 
   @include bp-up($screen-sm-min) {
     top: 25px;
