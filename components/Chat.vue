@@ -142,8 +142,8 @@ export default {
   height: 34px;
   width: 34px;
   position: absolute;
-  top: -15px;
-  right: -10px;
+  top: -11px;
+  right: -7px;
   background: $color-text;
   color: $color-bg;
   border: 2px solid $color-bg;
@@ -152,5 +152,10 @@ export default {
   font-weight: bold;
   line-height: 1.1;
   cursor: pointer;
+
+  @include bp-up($screen-sm-min) {
+    top: -15px;
+    right: -10px;
+  }
 }
 </style>
